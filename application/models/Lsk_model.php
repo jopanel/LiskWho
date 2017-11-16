@@ -9,21 +9,54 @@ class Lsk_model extends CI_Model {
                 //https://github.com/cb0/LiskPHP
                 require __DIR__.'/../../vendor/autoload.php';
         }
- 
-
-
         
         protected function parseLiskResult($result) {
-                        try {
-                $client = new \Lisk\Client('https://login.lisk.io/');
-                $result = $client->getDelegate(null, 'jopanel');
-                $result = (array)$result;
-                echo "<pre>";
-                var_dump($result);
-                echo "</pre>";
-            } catch (Throwable $t) {
-                echo sprintf("Error: %s\n", $t->getMessage());
-            } 
+            $getall = 0;
+            $output = [];
+            $output["success"] = 1;
+            $keycounter = -1; 
+            $notlist = 0;
+            foreach ((array)$result as $k => $v) {
+                if (!is_array($v) && !is_object($v)) {
+                    $dispersekey = explode("\\", $k);
+                    $output["result"][$dispersekey[(count($dispersekey) - 1)]] = $v;
+                    $notlist = 1;
+                }
+                if ($notlist == 0) {
+                    $keycounter += 1;
+                    if ($keycounter == 0) { 
+                        if (count((array)$v) > 1) { 
+                            // an array of items
+                            $justintimecounter = -1;
+                            foreach((array)$v as $kk => $vv) {
+                                $dispersekey = explode('"', $kk);
+                                $dispersekey = explode("\\", $dispersekey[0]);
+                                if (count((array)$vv) > 1) { 
+                                    $justintimecounter += 1;
+                                    foreach ((array)$vv as $kb => $vb) {
+                                        $dispersekey = explode("\\", $kb);
+                                        $output["result"][$justintimecounter][$dispersekey[(count($dispersekey) - 1)]] = $vb;
+                                    }
+                                } else {
+                                    $output["result"][$keycounter][$dispersekey[(count($dispersekey) - 1)]] = $vv;
+                                }
+                                
+                            }
+                        } else {
+                            // spit out all items just in case
+                            $getall = 1;
+                        }
+                    }
+                }
+                
+            }
+            if ($getall == 1) {
+                foreach ((array)$result as $k => $v) { 
+                    $dispersekey = explode('"', $k); 
+                    $output["result"][$dispersekey[0]] = (array)$v;
+                }
+            }
+            return $output;
         }
 
         protected function generateSalt() {
@@ -40,6 +73,39 @@ class Lsk_model extends CI_Model {
                     $randomString .= $characters[rand(0, $charactersLength - 1)];
                 }
                 return $randomString;
+        }
+
+        public function getDelegate($publicKey=null, $username=null) {
+            try {
+                $client = new \Lisk\Client('https://login.lisk.io/');
+                $result = $client->getDelegate($publicKey, $username);
+                $result = $this->parseLiskResult($result);
+                return $result;
+            } catch (Throwable $t) {
+                return array("result" => null, "success" => 0, "error" => $t->getMessage());
+            }
+        }
+
+        public function getDelegateList($limit, $offset, $orderBy=null) {
+            try {
+                $client = new \Lisk\Client('https://login.lisk.io/');
+                $result = $client->getDelegateList($limit, $offset, $orderBy);
+                $result = $this->parseLiskResult($result);
+                return $result;
+            } catch (Throwable $t) {
+                return array("result" => null, "success" => 0, "error" => $t->getMessage());
+            }
+        }
+
+        public function getBalance($address) {
+            try {
+                $client = new \Lisk\Client('https://login.lisk.io/');
+                $result = $client->getBalance($address);
+                $result = $this->parseLiskResult($result);
+                return $result;
+            } catch (Throwable $t) {
+                return array("result" => null, "success" => 0, "error" => $t->getMessage());
+            }
         }
 
         public function register($postData=null) {
