@@ -21,5 +21,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?=base_url()?>resources/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="<?=base_url()?>resources/js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Plugin JavaScript -->
+    <script src="<?=base_url()?>resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="<?=base_url()?>resources/vendor/chart.js/Chart.min.js"></script>
+    <script src="<?=base_url()?>resources/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="<?=base_url()?>resources/vendor/datatables/dataTables.bootstrap4.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="<?=base_url()?>resources/js/sb-admin.js"></script> 
   </body>
 </html>

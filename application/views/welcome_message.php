@@ -8,41 +8,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="jumbotron">
       <div class="container">
         <h1 class="display-3">An End To Delegate Cartels</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+        <p>Lisk is plagued by delegates who receive free Lisk without contributing towards the Lisk community. It's time we change that. It is imperative that the top 101 delegates who earn Lisk from forging are people who are contributing to Lisk and not buying votes by sharing rewards. Delegates must be vetted for worthiness to promote a healthy and successful future for Lisk.</p>
       </div>
     </div>
 
     <div class="container"> 
       <div class="row">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+            <table style="display:none;" class="table table-bordered" width="100%" id="dataTable" cellspacing="0">
+                <thead>
+                    <tr> 
+                        <th>Rank #</th>
+                        <th>Delegate</th>
+                        <th>Items Picked</th>
+                        <th>Pick Date</th>
+                        <th>End Date</th>
+                        <th>People</th> 
+                        <th>Action</th>
+                    </tr>
+                </thead> 
+                <tbody>
+                  <tr>
+                    <td>test</td>
+                    <td>data</td>
+                    <td>test</td>
+                    <td>data</td>
+                    <td>test</td>
+                    <td>data</td>
+                    <td>test</td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
       </div> 
