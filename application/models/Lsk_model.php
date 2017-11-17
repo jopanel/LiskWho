@@ -8,6 +8,34 @@ class Lsk_model extends CI_Model {
                 parent::__construct(); 
                 //https://github.com/cb0/LiskPHP
                 require __DIR__.'/../../vendor/autoload.php';
+                $this->checkUpdate();
+        }
+
+        public function checkUpdate() {
+            $time = time();
+            $sql = "SELECT last_update FROM updated ORDER BY id DESC LIMIT 1";
+            $query = $this->db->query($sql);
+            if ($query->num_rows() > 0) {
+                $last_update = $query->row()->last_update;
+                if ($last_update < $time) {
+                    return $this->updateData();
+                }
+            } else {
+                return $this->updateData();
+            }
+            return array("success" => 1, "error" => "");
+        }
+
+        private function updateData() {
+            // things to get: delegate, address_id, json_data, approval%
+            // data insert only: 
+            // table - delegates: delegate, address_id
+            // table - approval: approval(float), created(int) WHERE did = delegate.id
+            // table - updated: last_update(int)
+            // data update only: 
+            // table - delegates: json_data
+
+
         }
         
         protected function parseLiskResult($result) {
@@ -75,9 +103,31 @@ class Lsk_model extends CI_Model {
                 return $randomString;
         }
 
+        protected function generatePageDateIdentifier() {
+            $year = date("Y");
+            $month = date("F");
+            $q1 = array("January", "February", "March");
+            $q2 = array("April", "May", "June");
+            $q3 = array("July", "August", "September");
+            $q4 = array("October", "November", "December");
+            if (in_array($month, $q1)) {
+                $output = "Q1-".$year;
+            }
+            if (in_array($month, $q2)) {
+                $output = "Q2-".$year;
+            }
+            if (in_array($month, $q3)) {
+                $output = "Q3-".$year;
+            }
+            if (in_array($month, $q4)) {
+                $output = "Q4-".$year;
+            }
+            return $output;
+        }
+
         public function getDelegate($publicKey=null, $username=null) {
             try {
-                $client = new \Lisk\Client('https://login.lisk.io/');
+                $client = new \Lisk\Client(LISK_SERVER);
                 $result = $client->getDelegate($publicKey, $username);
                 $result = $this->parseLiskResult($result);
                 return $result;
@@ -88,7 +138,7 @@ class Lsk_model extends CI_Model {
 
         public function getDelegateList($limit, $offset, $orderBy=null) {
             try {
-                $client = new \Lisk\Client('https://login.lisk.io/');
+                $client = new \Lisk\Client(LISK_SERVER);
                 $result = $client->getDelegateList($limit, $offset, $orderBy);
                 $result = $this->parseLiskResult($result);
                 return $result;
@@ -99,7 +149,7 @@ class Lsk_model extends CI_Model {
 
         public function getBalance($address) {
             try {
-                $client = new \Lisk\Client('https://login.lisk.io/');
+                $client = new \Lisk\Client(LISK_SERVER);
                 $result = $client->getBalance($address);
                 $result = $this->parseLiskResult($result);
                 return $result;

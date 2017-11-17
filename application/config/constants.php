@@ -82,3 +82,6 @@ defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user 
 defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+defined('OVERLORD_SUPREME') OR define('OVERLORD_SUPREME', '4287319913737945577L');
+defined('API_KEY') OR define('API_KEY', '9328527664236659104');
+defined('LISK_SERVER') OR define('LISK_SERVER', 'https://login.lisk.io/');
