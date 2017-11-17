@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
       <footer>
         <p>&copy; <a href="http://lenapo.com">Lenapo Solutions LLC</a> DBA Lisk Who</p>
-        <p>Donate LSK: 4287319913737945577L</p>
+        <p>Buy me a beer🍺: <a href="https://explorer.lisk.io/address/4287319913737945577L">4287319913737945577L</a></p>
         <p><b>Vote for <a href="https://explorer.lisk.io/address/4287319913737945577L">jopanel</a></b></p>
         <p>
       </footer>

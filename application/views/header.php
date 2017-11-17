@@ -57,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </ul>
         <form class="form-inline my-2 my-lg-0">
           <input class="form-control mr-sm-2" type="text" placeholder="address or name">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search Delegates</button>
+          <button class="btn btn-primary" type="submit">Find Delegate</button>
         </form>
       </div>
     </nav>
