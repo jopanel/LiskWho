@@ -81,9 +81,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <td>This defines what company the delegate is from. It is possible for a independent to represent a company or group of delegates and not. Groups generally want you to vote for everybody in their group and could have greater rewards for voters.</td>
             </tr>  
           </tbody>
-        </table>
-
-        <pre>
-            <?=var_dump($res)?>
+        </table> 
+        <pre>   
+          <?=print_r($res)?>
         </pre>
       </div> 

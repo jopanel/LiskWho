@@ -38,6 +38,59 @@ class Lsk_model extends CI_Model {
 
         }
         
+        // protected function parseLiskResult($result) {
+        //     $getall = 0;
+        //     $output = [];
+        //     $output["success"] = 1;
+        //     $keycounter = -1; 
+        //     $notlist = 0;
+        //     foreach ((array)$result as $k => $v) {
+        //         if (!is_array($v) && !is_object($v)) {
+        //             $dispersekey = explode("\\", $k);
+        //             $put = (string)$dispersekey[(count($dispersekey) - 1)];
+        //             $output["result"][$put] = $v;
+        //             $notlist = 1;
+        //         }
+        //         if ($notlist == 0) {
+        //             $keycounter += 1;
+        //             if ($keycounter == 0) { 
+        //                 if (count((array)$v) > 1) { 
+        //                     // an array of items
+        //                     $justintimecounter = -1;
+        //                     foreach((array)$v as $kk => $vv) {
+        //                         $dispersekey = explode('"', $kk);
+        //                         $dispersekey = explode("\\", $dispersekey[0]);
+        //                         if (count((array)$vv) > 1) { 
+        //                             $justintimecounter += 1;
+        //                             foreach ((array)$vv as $kb => $vb) {
+        //                                 $dispersekey = explode("\\", $kb);
+        //                                 $put = (string)$dispersekey[(count($dispersekey) - 1)];
+        //                                 $output["result"][$justintimecounter][$put] = $vb;
+        //                             }
+        //                         } else {
+        //                             $put = (string)$dispersekey[(count($dispersekey) - 1)];
+        //                             $output["result"][$keycounter][$put] = $vv;
+        //                         }
+                                
+        //                     }
+        //                 } else {
+        //                     // spit out all items just in case
+        //                     $getall = 1;
+        //                 }
+        //             }
+        //         }
+                
+        //     }
+        //     if ($getall == 1) {
+        //         foreach ((array)$result as $k => $v) { 
+        //             $dispersekey = explode('"', $k); 
+        //             $put = $dispersekey[0];
+        //             $output["result"][$put] = $v;
+        //         }
+        //     }
+        //     return $output;
+        // } 
+
         protected function parseLiskResult($result) {
             $getall = 0;
             $output = [];
@@ -47,7 +100,8 @@ class Lsk_model extends CI_Model {
             foreach ((array)$result as $k => $v) {
                 if (!is_array($v) && !is_object($v)) {
                     $dispersekey = explode("\\", $k);
-                    $output["result"][$dispersekey[(count($dispersekey) - 1)]] = $v;
+                    $output["keys"][] = (string)$dispersekey[(count($dispersekey) - 1)];
+                    $output["result"][] = $v;
                     $notlist = 1;
                 }
                 if ($notlist == 0) {
@@ -63,10 +117,12 @@ class Lsk_model extends CI_Model {
                                     $justintimecounter += 1;
                                     foreach ((array)$vv as $kb => $vb) {
                                         $dispersekey = explode("\\", $kb);
-                                        $output["result"][$justintimecounter][$dispersekey[(count($dispersekey) - 1)]] = $vb;
+                                        $output["keys"][] = (string)$dispersekey[(count($dispersekey) - 1)];
+                                        $output["result"][$justintimecounter][] = $vb;
                                     }
                                 } else {
-                                    $output["result"][$keycounter][$dispersekey[(count($dispersekey) - 1)]] = $vv;
+                                    $output["keys"][] =(string)$dispersekey[(count($dispersekey) - 1)];
+                                    $output["result"][$keycounter][] = $vv;
                                 }
                                 
                             }
@@ -81,11 +137,28 @@ class Lsk_model extends CI_Model {
             if ($getall == 1) {
                 foreach ((array)$result as $k => $v) { 
                     $dispersekey = explode('"', $k); 
-                    $output["result"][$dispersekey[0]] = (array)$v;
+                    $output["keys"] = $dispersekey[0];
+                    $output["result"][] = (array)$v;
                 }
             }
+            $newresultarray = [];
+            // delete last 2 items in result array
+            $totalkeys = count($output["result"]);
+            $del1 = $totalkeys - 1;
+            $del2 = $totalkeys - 2;
+            unset($output["result"][$del1]);
+            unset($output["result"][$del2]);
+            $output["keys"] = array_unique($output["keys"]); 
+             // foreach ($output["result"] as $kk => $arr) {
+             //     foreach ($arr as $k => $v) {
+             //         if (isset($output["keys"][$k])) {
+             //             $newresultarray[$kk][(string)strtolower($output["keys"][$k])] = $v;
+             //         } 
+             //     }
+             // }
+             // $output["result"] = $newresultarray;
             return $output;
-        }
+        } 
 
         protected function generateSalt() {
                 $salt = "xiORG17N6ayoEn6X3";
@@ -126,24 +199,48 @@ class Lsk_model extends CI_Model {
         }
 
         public function getDelegate($publicKey=null, $username=null) {
+            /*
+            [0] => Delegateusername
+            [1] => Delegatevote
+            [2] => Delegateproducedblocks
+            [3] => Delegatemissedblocks
+            [4] => Delegaterate
+            [5] => Delegaterank
+            [6] => Delegateapproval
+            [7] => Delegateproductivity
+            [8] => Accountaddress
+            [9] => AccountpublicKey
+            */
             try {
                 $client = new \Lisk\Client(LISK_SERVER);
                 $result = $client->getDelegate($publicKey, $username);
                 $result = $this->parseLiskResult($result);
                 return $result;
             } catch (Throwable $t) {
-                return array("result" => null, "success" => 0, "error" => $t->getMessage());
+                return (object)array("result" => null, "success" => 0, "error" => $t->getMessage());
             }
         }
 
         public function getDelegateList($limit, $offset, $orderBy=null) {
+            /*
+            [0] => Delegateusername
+            [1] => Delegatevote
+            [2] => Delegateproducedblocks
+            [3] => Delegatemissedblocks
+            [4] => Delegaterate
+            [5] => Delegaterank
+            [6] => Delegateapproval
+            [7] => Delegateproductivity
+            [8] => Accountaddress
+            [9] => AccountpublicKey
+            */
             try {
                 $client = new \Lisk\Client(LISK_SERVER);
                 $result = $client->getDelegateList($limit, $offset, $orderBy);
                 $result = $this->parseLiskResult($result);
                 return $result;
             } catch (Throwable $t) {
-                return array("result" => null, "success" => 0, "error" => $t->getMessage());
+                return (object)array("result" => null, "success" => 0, "error" => $t->getMessage());
             }
         }
 
@@ -154,7 +251,7 @@ class Lsk_model extends CI_Model {
                 $result = $this->parseLiskResult($result);
                 return $result;
             } catch (Throwable $t) {
-                return array("result" => null, "success" => 0, "error" => $t->getMessage());
+                return (object)array("result" => null, "success" => 0, "error" => $t->getMessage());
             }
         }
 
