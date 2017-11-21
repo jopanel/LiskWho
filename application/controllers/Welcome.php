@@ -7,7 +7,7 @@ class Welcome extends CI_Controller {
 	{ 
 		$data["res"] = $this->Lsk_model->getDelegateList(5,0,null);
 		$this->load->view('header');
-		$this->load->view('welcome_message', $data);
+		$this->load->view('home', $data);
 		$this->load->view('footer');
 	}
 }
