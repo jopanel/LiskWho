@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Delegate extends CI_Controller {
 
-	public function index($profile=null)
+	public function profile($profile=null)
 	{
 		$this->load->view('header');
 		if ($profile == null) {

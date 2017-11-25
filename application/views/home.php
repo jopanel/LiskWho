@@ -21,8 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <tr> 
                             <th>Rank #</th>
                             <th>Delegate</th>
-                            <th>Rewards</th>
-                            <th>Karma</th>
+                            <th>Rewards</th> 
                             <th>Approval %</th>
                             <th>Group</th> 
                             <th>Action</th>
@@ -32,14 +31,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <tr>
                         <td>1</td>
                         <td>jopanel</td>
-                        <td>NO</td>
-                        <td>+ 123</td>
+                        <td>NO</td> 
                         <td>test</td>
                         <td>data</td>
                         <td><center>
-                            <button class="btn btn-primary">Open</button>
-                            <button type="button" class="btn btn-success">👍</button>
-                            <button type="button" class="btn btn-danger">👎</button>
+                            <a href="<?=base_url()?>delegate/profile/"><button class="btn btn-primary">Comments</button></a>
+                            <button type="button" class="btn btn-success">500 👍</button>
+                            <button type="button" class="btn btn-danger">42 👎</button>
                           </center>
                         </td>
                       </tr>
@@ -82,7 +80,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </tr>  
           </tbody>
         </table> 
-        <pre>   
-          <?=print_r($res)?>
+        <pre>    
         </pre>
       </div> 
