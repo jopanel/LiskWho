@@ -50,25 +50,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Lisk FAQ</a>
             <div class="dropdown-menu" aria-labelledby="dropdown02">
-              <a class="dropdown-item" href="#">Whats A Delegate?</a>
-              <a class="dropdown-item" href="#">How Do I Vote?</a>
-              <a class="dropdown-item" href="#">What Is Forging?</a> 
+              <a class="dropdown-item" href="#whats-a-delegate">Whats A Delegate?</a>
+              <a class="dropdown-item" href="#how-to-vote">How Do I Vote?</a>
+              <a class="dropdown-item" href="#what-is-forging">What Is Forging?</a> 
+              <a class="dropdown-item" href="#definitions">Definitions</a>
             </div>
           </li>  
-          <li class="nav-item dropdown">
+          <li style="display:none;" class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Delegates Panel</a>
             <div class="dropdown-menu" aria-labelledby="dropdown01">
               <a class="dropdown-item" href="#">Verify Account</a>
               <a class="dropdown-item" href="#">Login</a>
             </div>
           </li> 
-          <li class="nav-item">
+          <li class="nav-item" style="display:none;">
             <a class="nav-link" href="https://encryptmywallet.com">Encrypt My Wallet</a>
           </li> 
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="address or name">
-          <button class="btn btn-primary" type="submit">Find Delegate</button>
-        </form>
+        </ul> 
       </div>
     </nav>

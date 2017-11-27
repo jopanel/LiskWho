@@ -62,7 +62,7 @@ class Lsk_model extends CI_Model {
             }  
             foreach ($delegateData as $v) {
                 // get additional delegate data
-                $weight = $this->toHuman($v[1]);
+                $weight = $v[1];
                 $approval = $v[6];
                 $json_data = json_encode($v);
                 // check if delegate exists
@@ -73,11 +73,11 @@ class Lsk_model extends CI_Model {
                     $did = $query->row()->id;
                     $sql = "INSERT INTO approval (did, weight, approval, created) VALUES (".$this->db->escape($did).", ".$this->db->escape($weight).", ".$this->db->escape($approval).", UNIX_TIMESTAMP(NOW()))";
                     $this->db->query($sql);
-                    $sql = "UPDATE delegates SET json_data = ".$this->escape($json_data)." WHERE id = ".$this->escape($did);
+                    $sql = "UPDATE delegates SET weight = ".$this->db->escape($weight).", json_data = ".$this->escape($json_data)." WHERE id = ".$this->escape($did);
                     $this->db->query($sql);
                 } else {
                     // delegate doesnt exist
-                    $sql = "INSERT INTO delegates (delegate, address_id, json_data) VALUES (".$this->db->escape($v[0]).", ".$this->db->escape($v[8]).", ".$this->db->escape($json_data).")";
+                    $sql = "INSERT INTO delegates (delegate, address_id, weight, json_data) VALUES (".$this->db->escape($v[0]).", ".$this->db->escape($v[8]).", ".$this->db->escape($weight).", ".$this->db->escape($json_data).")";
                     $this->db->query($sql);
                     $sql = "SELECT id FROM delegates WHERE address_id = ".$this->db->escape($v[8]);
                     $query1 = $this->db->query($sql);
@@ -92,7 +92,7 @@ class Lsk_model extends CI_Model {
         }
 
         private function toHuman($number) {
-            return sprintf("%.8f", $number / 100000000);
+            return number_format(sprintf("%.8f", $number / 100000000), 2, '.', '');
         }
 
         protected function parseLiskResult($result) {
@@ -200,6 +200,81 @@ class Lsk_model extends CI_Model {
                 $output = "Q4-".$year;
             }
             return $output;
+        }
+
+        public function getHomeData() {
+            $output = [];
+            $sql = "
+                SELECT
+                d.id AS 'did',
+                d.delegate,
+                d.address_id,
+                d.grp,
+                d.rewards,
+                (
+                    SELECT
+                        a.approval
+                    FROM
+                        approval a
+                    WHERE
+                        a.did = d.id
+                    ORDER BY
+                        created DESC
+                    LIMIT 1
+                )AS 'approval',
+                (
+                    SELECT
+                        a.weight
+                    FROM
+                        approval a
+                    WHERE
+                        a.did = d.id
+                    ORDER BY
+                        created DESC
+                    LIMIT 1
+                )AS 'weight',
+                (
+                    SELECT
+                        COALESCE(COUNT(k.karma), 0)
+                    FROM
+                        karma k
+                    WHERE
+                        k.did = d.id
+                    AND k.karma = '0'
+                )AS 'negative_karma',
+                (
+                    SELECT
+                        COALESCE(COUNT(kk.karma), 0)
+                    FROM
+                        karma kk
+                    WHERE
+                        kk.did = d.id
+                    AND kk.karma = '1'
+                )AS 'positive_karma'
+            FROM
+                delegates d
+            ORDER BY
+                d.weight DESC
+            ";
+            $query = $this->db->query($sql);
+            if ($query->num_rows() > 0) {
+                foreach($query->result_array() as $res) {
+                    $output[] = array(
+                        "did" => $res["did"],
+                        "name" => $res["delegate"],
+                        "address_id" => $res["address_id"],
+                        "group" => $res["grp"],
+                        "rewards" => $res["rewards"],
+                        "approval" => $res["approval"],
+                        "weight" => $this->toHuman($res["weight"]),
+                        "negative_karma" => $res["negative_karma"],
+                        "positive_karma" => $res["positive_karma"]
+                    );
+                }
+                return $output;
+            } else {
+                return array();
+            }
         }
 
         public function getDelegate($publicKey=null, $username=null) {

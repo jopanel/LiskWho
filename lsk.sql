@@ -3,15 +3,15 @@
 
  Source Server         : local
  Source Server Type    : MySQL
- Source Server Version : 50716
+ Source Server Version : 50719
  Source Host           : localhost
  Source Database       : lsk
 
  Target Server Type    : MySQL
- Target Server Version : 50716
+ Target Server Version : 50719
  File Encoding         : utf-8
 
- Date: 11/17/2017 12:00:47 PM
+ Date: 11/26/2017 22:06:08 PM
 */
 
 SET NAMES utf8;
@@ -53,10 +53,15 @@ DROP TABLE IF EXISTS `approval`;
 CREATE TABLE `approval` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `did` int(11) NOT NULL,
+  `weight` bigint(20) NOT NULL,
   `approval` float NOT NULL,
   `created` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`),
+  KEY `did` (`did`) USING BTREE,
+  KEY `weight` (`weight`) USING BTREE,
+  KEY `approval` (`approval`) USING BTREE,
+  KEY `created` (`created`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=6032 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 --  Table structure for `comments`
@@ -85,6 +90,7 @@ CREATE TABLE `delegates` (
   `short_description` varchar(255) DEFAULT NULL,
   `grp` varchar(255) NOT NULL DEFAULT 'independent',
   `rewards` float NOT NULL DEFAULT '0',
+  `weight` bigint(20) NOT NULL,
   `json_data` longtext,
   PRIMARY KEY (`id`),
   KEY `id` (`id`) USING BTREE,
@@ -92,8 +98,9 @@ CREATE TABLE `delegates` (
   KEY `uid` (`uid`) USING BTREE,
   KEY `address_id` (`address_id`) USING BTREE,
   KEY `grp` (`grp`) USING BTREE,
-  KEY `rewards` (`rewards`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `rewards` (`rewards`) USING BTREE,
+  KEY `weight` (`weight`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=6032 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 --  Table structure for `karma`
@@ -120,7 +127,7 @@ CREATE TABLE `updated` (
   PRIMARY KEY (`id`),
   KEY `id` (`id`) USING BTREE,
   KEY `last_update` (`last_update`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 --  Table structure for `users`
