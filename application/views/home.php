@@ -31,14 +31,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <?php
                       $rankcounter = 0;
                       foreach($res as $v) {
+                        $grpDelegates = explode(",", $v["group"]);
+                        $grp="";
+                        foreach ($grpDelegates as $g) {
+                          $grp .= $g."<br>";
+                        }
                         $rankcounter += 1;
                         ?>
                         <tr>
                           <td><?=$rankcounter?></td>
-                          <td><?=$v["name"]?></td>
+                          <td><a href="<?=base_url()?>delegate/profile/<?=$v["name"]?>"><?=$v["name"]?></a></td>
                           <td><?php if ($v["rewards"] > 0) { echo "Yes (".$v["rewards"]."%)"; } else { echo "NO"; } ?></td>
-                          <td><?=$v["approval"]?><br><small><?=$v["weight"]?></small></td>
-                          <td><?=$v["group"]?></td>
+                          <td><?=round($v["approval"],2)?>%<br><small><?=$v["weight"]?> LSK</small></td>
+                          <td><?=$grp?></td>
                           <td><center>
                             <a href="<?=base_url()?>delegate/profile/<?=$v["name"]?>"><button class="btn btn-primary">Comments</button></a>
                             <button onClick="giveKarma(1,<?=$v["did"]?>);" type="button" class="btn btn-success"><?=$v["positive_karma"]?> 👍</button>

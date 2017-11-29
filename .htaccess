@@ -1,0 +1,21 @@
+ 
+
+
+UPDATE delegates SET grp = CONCAT(grp, 'Elite,') WHERE delegate IN ("thepool","liskpool_com_01","forrest","liskpool.top","robinhood","corsaro","liskit","vi1son","liskroad","vekexasia","redsn0w","slasheks","vipertkd","hagie","splatters","kushed.delegate","samuray","index","hoop","pelops","luiz","iii.element.iii","spacetrucker","acheng","badman0316","leo","rooney","bigfisher","liskjp","will","panzer","xujian","eastwind_ja","grajsondelegate","mrgr","adrianhunter","luxiang7890","crodam","honeybee","phinx","seven","chamberlain","someonesomeone","savetheworld","lwyrup","luukas","carolina","hua","mac","augurproject","forger_of_lisk","crolisk","veriform","goodtimes","zy1349","yuandian","hong","bilibili","dakini","loveforever","cai","bigtom","jixie","blackswan","khitan","jiandan","menfei","china","kaystar","kc","catstar","threelittlepig","elonhan","carbonara");
+ 
+
+UPDATE delegates SET grp = CONCAT(grp, 'Sherwood,') WHERE delegate IN ("thepool","liskpool_com_01","forrest","liskpool.top","robinhood","corsaro","liskit","vi1son","vekexasia","redsn0w","slasheks","vipertkd","hagie","splatters","kushed.delegate","samuray","index","hoop","pelops","liberspirita","liskpro.com");
+ 
+
+UPDATE delegates SET grp = CONCAT(grp, 'Ark Founding Team,') WHERE delegate IN ("thepool","liskpool_com_01","forrest","liskpool.top","corsaro","liskit","vi1son","vekexasia","redsn0w","slasheks","vipertkd","hagie","splatters","kushed.delegate","samuray","index","hoop","pelops","atreides","axente","bangomatic","bitseed","cad789","cryptostorms","dafricash","devasive","doweig","cannabananadelegate","diplo","djselery","fixcrypt","grexx","sonobit","tharude","techbytes","thrice.pi_prometheus","traderbill","vega","vrlc92","wannabe_rotebaron","xujian");
+ 
+
+UPDATE delegates SET grp = CONCAT(grp, 'Lisk Builders,') WHERE delegate IN ("thepool","liskpool_com_01","forrest","liskpool.top","corsaro","liskit","vi1son","vekexasia","redsn0w","slasheks","hagie","splatters","kushed.delegate","index","pelops","dakk","5an1ty","cc001","gr33ndrag0n","mrv","alepop","4fryn","carbonara","liskpro.com","joo5ty","bioly","philhellmuth","endro");
+
+ 
+
+UPDATE delegates SET grp = CONCAT(grp, 'GDT Group,') WHERE delegate IN ("liskpool_com_01","forrest","liskpool.top","corsaro","vi1son","redsn0w","slasheks","hagie","splatters","kushed.delegate","index","pelops","gdtpool","4miners.net","eclipsun","goldeneye","grumlin","hmachado","joel","liskgate","nerigal","ntelo","ondin","punkrock","sgdias","tembo","5an1ty","alepop","bioly","cc001","dakk","gr33ndrag0n","joo5ty","liskit","mrv","philhellmuth","vekexasia");
+ 
+
+
+UPDATE delegates SET grp = CONCAT(grp, 'Dutch Group,') WHERE delegate IN ("liskpool_com_01","liskpool.top","index","pelops","dutch_pool","kippers","thamar","fnoufnou","st3v3n");

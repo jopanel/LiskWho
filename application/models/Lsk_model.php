@@ -180,7 +180,7 @@ class Lsk_model extends CI_Model {
                 return $randomString;
         }
 
-        protected function generatePageDateIdentifier() {
+        public function generatePageDateIdentifier() {
             $year = date("Y");
             $month = date("F");
             $q1 = array("January", "February", "March");
@@ -319,6 +319,10 @@ class Lsk_model extends CI_Model {
             } catch (Throwable $t) {
                 return (object)array("result" => null, "success" => 0, "error" => $t->getMessage());
             }
+        }
+
+        public function getDelegateData($profile=null) {
+            
         }
 
         public function register($postData=null) {
