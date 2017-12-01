@@ -347,6 +347,46 @@ class Lsk_model extends CI_Model {
             }
         }
 
+        public function giveKarma($delegate, $karma) { 
+            $done = 0;
+            $karma = $this->db->escape(strip_tags((int)$karma));
+            $delegate = $this->db->escape(strip_tags((int)$delegate));
+            $ip = $this->getUserIP();
+            // check if user has a vote already for delegate
+            $sql = "SELECT id, karma FROM karma WHERE did = ".$delegate." AND ip = ".$this->db->escape($ip);
+            $query = $this->db->query($sql);
+            if ($query->num_rows() > 0) {
+                $originalkarma = $query->row()->karma;
+                if ($this->db->escape($originalkarma) != $this->db->escape($karma)) {
+                    $done = 1;
+                } else {
+                    $sql2 = "DELETE FROM karma WHERE id = ".$this->db->escape($query->row()->id);
+                    $this->db->query($sql2);
+                }
+            }
+            if ($done == 0) {
+                $sql = "INSERT INTO karma (did, karma, ip, created) VALUES (".$delegate.", ".$karma.", ".$this->db->escape($ip).", UNIX_TIMESTAMP(NOW()))";
+                $this->db->query($sql);
+            } 
+            $sql = "SELECT
+                        COALESCE(COUNT(k.karma), 0)AS 'positive_karma'
+                    FROM
+                        karma k
+                    WHERE
+                        k.did = ".$delegate."
+                    AND k.karma = '1'
+                    UNION
+                        SELECT
+                            COALESCE(COUNT(kk.karma), 0)AS 'negative_karma'
+                        FROM
+                            karma kk
+                        WHERE
+                            kk.did = ".$delegate."
+                        AND kk.karma = '0'";
+            $query = $this->db->query($sql);
+            return json_encode(array("positive"=>$query->row()->positive_karma, "negative"=>$query->row()->negative_karma));
+        }
+
 
         public function getUserIP() {
 		    $ipaddress = '';

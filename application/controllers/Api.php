@@ -17,4 +17,13 @@ class Api extends CI_Controller {
 
 		}
 	}
+
+	public function giveKarma($delegate=null, $karma=null) {
+		if ($delegate == null || $karma == null) {
+			exit();
+		}
+		if ($this->input->is_ajax_request()) {
+			echo $this->Lsk_model->giveKarma($delegate,$karma);
+		}
+	}
 }

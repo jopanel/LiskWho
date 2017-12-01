@@ -50,10 +50,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Lisk FAQ</a>
             <div class="dropdown-menu" aria-labelledby="dropdown02">
-              <a class="dropdown-item" href="#whats-a-delegate">Whats A Delegate?</a>
-              <a class="dropdown-item" href="#how-to-vote">How Do I Vote?</a>
-              <a class="dropdown-item" href="#what-is-forging">What Is Forging?</a> 
-              <a class="dropdown-item" href="#definitions">Definitions</a>
+              <a class="dropdown-item" href="<?=base_url()?>#whats-a-delegate">Whats A Delegate?</a>
+              <a class="dropdown-item" href="<?=base_url()?>#how-to-vote">How Do I Vote?</a>
+              <a class="dropdown-item" href="<?=base_url()?>#what-is-forging">What Is Forging?</a> 
+              <a class="dropdown-item" href="<?=base_url()?>#definitions">Definitions</a>
             </div>
           </li>  
           <li style="display:none;" class="nav-item dropdown">

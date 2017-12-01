@@ -46,8 +46,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <td><?=$grp?></td>
                           <td><center>
                             <a href="<?=base_url()?>delegate/profile/<?=$v["name"]?>"><button class="btn btn-primary">Comments</button></a>
-                            <button onClick="giveKarma(1,<?=$v["did"]?>);" type="button" class="btn btn-success"><?=$v["positive_karma"]?> 👍</button>
-                            <button onClick="giveKarma(0,<?=$v["did"]?>);" type="button" class="btn btn-danger"><?=$v["negative_karma"]?> 👎</button>
+                            <button onClick="giveKarma(1,<?=$v["did"]?>);" id="<?=$v["did"]?>-positive" type="button" class="btn btn-success"><?=$v["positive_karma"]?> 👍</button><input type="hidden" id="<?=$v["did"]?>-positive-hidden" value="<?=$v["positive_karma"]?>">
+                            <button onClick="giveKarma(0,<?=$v["did"]?>);" type="button" id="<?=$v["did"]?>-negative" class="btn btn-danger"><?=$v["negative_karma"]?> 👎</button><input type="hidden" id="<?=$v["did"]?>-negative-hidden" value="<?=$v["negative_karma"]?>">
                           </center>
                         </td>
                       </tr>
@@ -106,6 +106,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
       <script>
         function giveKarma(vote, did) {
-
+          $.ajax({
+                    type: 'POST',
+                    url: '<?=base_url()?>api/giveKarma/'+did+'/'+vote, 
+                    dataType: 'json',
+                    cache: false,
+                    success: function (data) {  
+                        if (vote == 0) {
+                          document.getElementById(did+"-negative").innerHTML = data.negative+' 👎';
+                          document.getElementById(did+"-positive").innerHTML = data.positive+' 👍';
+                        }
+                    }
+          });
         }
       </script>
