@@ -348,6 +348,7 @@ class Lsk_model extends CI_Model {
         }
 
         public function giveKarma($delegate, $karma) { 
+            $ogkarma = $karma;
             $done = 0;
             $karma = $this->db->escape(strip_tags((int)$karma));
             $delegate = $this->db->escape(strip_tags((int)$delegate));
@@ -357,7 +358,7 @@ class Lsk_model extends CI_Model {
             $query = $this->db->query($sql);
             if ($query->num_rows() > 0) {
                 $originalkarma = $query->row()->karma;
-                if ($this->db->escape($originalkarma) != $this->db->escape($karma)) {
+                if ($originalkarma == $ogkarma) {
                     $done = 1;
                 } else {
                     $sql2 = "DELETE FROM karma WHERE id = ".$this->db->escape($query->row()->id);
@@ -369,20 +370,12 @@ class Lsk_model extends CI_Model {
                 $this->db->query($sql);
             } 
             $sql = "SELECT
-                        COALESCE(COUNT(k.karma), 0)AS 'positive_karma'
+                        COALESCE(COUNT(k.karma), 0)AS 'positive_karma', (SELECT COALESCE(COUNT(kk.karma), 0) FROM karma kk WHERE kk.did = ".$delegate." AND kk.karma = '0') as 'negative_karma'
                     FROM
                         karma k
                     WHERE
                         k.did = ".$delegate."
-                    AND k.karma = '1'
-                    UNION
-                        SELECT
-                            COALESCE(COUNT(kk.karma), 0)AS 'negative_karma'
-                        FROM
-                            karma kk
-                        WHERE
-                            kk.did = ".$delegate."
-                        AND kk.karma = '0'";
+                    AND k.karma = '1'";
             $query = $this->db->query($sql);
             return json_encode(array("positive"=>$query->row()->positive_karma, "negative"=>$query->row()->negative_karma));
         }

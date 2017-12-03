@@ -4,13 +4,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="container"> 
 	<div class="row">
-	</div>
-    <div class="row">
-		<div id="disqus_thread"></div>
-	</div>
+	</div> 
+		
 </div>
 
-
+<div id="disqus_thread"></div>
 <script>
 
 /**

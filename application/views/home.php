@@ -21,8 +21,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <tr> 
                             <th>Rank #</th>
                             <th>Delegate</th>
-                            <th>Rewards</th> 
-                            <th>Approval %</th>
+                            <!-- <th>Rewards</th> -->
+                            <th>Approval %</th> 
                             <th>Group</th> 
                             <th>Action</th>
                         </tr>
@@ -41,13 +41,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <tr>
                           <td><?=$rankcounter?></td>
                           <td><a href="<?=base_url()?>delegate/profile/<?=$v["name"]?>"><?=$v["name"]?></a></td>
-                          <td><?php if ($v["rewards"] > 0) { echo "Yes (".$v["rewards"]."%)"; } else { echo "NO"; } ?></td>
-                          <td><?=round($v["approval"],2)?>%<br><small><?=$v["weight"]?> LSK</small></td>
+                          <!--<td><?php if ($v["rewards"] > 0) { echo "Yes (".$v["rewards"]."%)"; } else { echo "NO"; } ?></td> -->
+                          <td><?=round($v["approval"],2)?>%<br><small><?=$v["weight"]?> LSK</small></td> 
                           <td><?=$grp?></td>
                           <td><center>
                             <a href="<?=base_url()?>delegate/profile/<?=$v["name"]?>"><button class="btn btn-primary">Comments</button></a>
-                            <button onClick="giveKarma(1,<?=$v["did"]?>);" id="<?=$v["did"]?>-positive" type="button" class="btn btn-success"><?=$v["positive_karma"]?> 👍</button><input type="hidden" id="<?=$v["did"]?>-positive-hidden" value="<?=$v["positive_karma"]?>">
-                            <button onClick="giveKarma(0,<?=$v["did"]?>);" type="button" id="<?=$v["did"]?>-negative" class="btn btn-danger"><?=$v["negative_karma"]?> 👎</button><input type="hidden" id="<?=$v["did"]?>-negative-hidden" value="<?=$v["negative_karma"]?>">
+                            <button onClick="giveKarma(1,<?=$v["did"]?>);" id="<?=$v["did"]?>-positive" type="button" class="btn btn-success"><?=$v["positive_karma"]?> 👍</button>
+                            <button onClick="giveKarma(0,<?=$v["did"]?>);" id="<?=$v["did"]?>-negative" type="button" class="btn btn-danger"><?=$v["negative_karma"]?> 👎</button>
                           </center>
                         </td>
                       </tr>
@@ -112,10 +112,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     dataType: 'json',
                     cache: false,
                     success: function (data) {  
-                        if (vote == 0) {
                           document.getElementById(did+"-negative").innerHTML = data.negative+' 👎';
                           document.getElementById(did+"-positive").innerHTML = data.positive+' 👍';
-                        }
                     }
           });
         }
